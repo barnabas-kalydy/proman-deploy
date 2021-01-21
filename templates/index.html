@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ProMan</title>
+
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        /* Change the link color to #111 (black) on hover */
+        li a:hover {
+            background-color: #111;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/solid.css"
+        integrity="sha384-rdyFrfAIC05c5ph7BKz3l5NG5yEottvO/DQ0dCrwD8gzeQDjYBHNr1ucUpQuljos" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/fontawesome.css"
+        integrity="sha384-u5J7JghGz0qUrmEsWzBQkfvc8nK3fUT7DCaQzNQ+q4oEXhGSx+P2OqjWsfIRB8QT" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/design.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96"
+        href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+
+<body>
+    <ul>
+        {% if session["username"] %}
+        <li><a href="{{ url_for('logout') }}">Log out</a></li>
+        <li style="float:right"><p style="color: white;">Logged in as {{ session['username'] }}   </p></li>
+        {% else %}
+        <li><a href="{{ url_for('login_page')}}">Login</a></li>
+        <li><a href="{{ url_for('register_page') }}">Register</a></li>
+        {% endif %}
+    </ul>
+
+    <h1>ProMan</h1>
+    <div class="add-board">
+        <form action="/add-board" method="POST">
+            <span><label>New Board Name: </label></span>
+            <span><input name="new_board_name" type="text" required></span>
+            <br>
+            {% if session['username'] %}
+            <span><label for="private">Check if private:</label></span>
+            <span><input type="checkbox" name="private" value="private"></span>
+            <br>
+            {% endif %}
+            <span><button type="submit" class="board-add">Create new board</button></span>
+        </form>
+    </div>
+    <div class="board-container">
+        <div id="boards"></div>
+    </div>
+</body>
+
+</html>
